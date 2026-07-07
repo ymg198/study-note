@@ -1,0 +1,27 @@
+{
+  "name": "study-note",
+  "version": "0.1.0",
+  "description": "桌面正方形小备忘录学习助手：点击编辑今日学习总括，生成细节与重难点，对话式精修，保存后从本地记忆随机抽取两道巩固题。",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "build": "tsc && node scripts/copy-assets.js",
+    "watch": "tsc -w",
+    "copy-assets": "node scripts/copy-assets.js",
+    "start": "npm run build && electron .",
+    "dev": "concurrently -k -n ts,el \"npm:watch\" \"electron .\"",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["electron", "study", "memo", "cursor-sdk", "learning"],
+  "author": "ymg198",
+  "license": "MIT",
+  "dependencies": {
+    "@cursor/sdk": "^1.0.23",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "concurrently": "^10.0.3",
+    "electron": "^43.0.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'"
+    />
+    <title>学习备忘录</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="note">
+      <header class="titlebar" id="titlebar">
+        <div class="title">
+          <span class="dot dot-y"></span>
+          <span class="date" id="date">—</span>
+        </div>
+        <div class="controls">
+          <button class="ctrl" id="btn-min" title="最小化">–</button>
+          <button class="ctrl" id="btn-close" title="关闭">×</button>
+        </div>
+      </header>
+
+      <main class="body" id="body">
+        <!-- 编辑视图 -->
+        <section class="view view-edit" id="view-edit">
+          <p class="hint">今天学了什么？写下总括和要点，再生成细节与重难点。</p>
+          <textarea
+            id="summary"
+            class="editor"
+            placeholder="例：今天上了 Python 字符串课，讲了不可变性、索引、切片、拼接方式、转义与原始字符串、f-string…"
+          ></textarea>
+          <div class="meta">
+            <span id="mem-count" class="muted">记忆 0 条</span>
+            <button id="btn-generate" class="primary">生成学习内容</button>
+          </div>
+        </section>
+
+        <!-- 结果视图 -->
+        <section class="view view-result hidden" id="view-result">
+          <div class="scroll" id="result-area"></div>
+          <div class="chat">
+            <div class="chat-log" id="chat-log"></div>
+            <div class="chat-input">
+              <input
+                type="text"
+                id="refine-input"
+                placeholder="想怎么改？例：重难点再精简一些 / 补一个例子"
+              />
+              <button id="btn-refine" class="ghost">发送</button>
+            </div>
+          </div>
+          <div class="meta">
+            <button id="btn-back" class="ghost">返回编辑</button>
+            <button id="btn-save" class="primary">完成并保存</button>
+          </div>
+        </section>
+
+        <!-- 出题视图 -->
+        <section class="view view-quiz hidden" id="view-quiz">
+          <div class="scroll" id="quiz-area"></div>
+          <div class="answer">
+            <textarea id="answer-input" placeholder="在此写下你的作答（两道都答）…"></textarea>
+            <div class="meta">
+              <button id="btn-evaluate" class="primary">提交作答</button>
+              <button id="btn-finish" class="ghost">结束</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 加载遮罩 -->
+        <div class="loading hidden" id="loading">
+          <div class="spinner"></div>
+          <span id="loading-text">生成中…</span>
+        </div>
+      </main>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>
