@@ -1,0 +1,39 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # 桌面应用构建只需 tsc + 拷贝静态资源，不需要 Electron 二进制；
+      # 跳过二进制下载可大幅加速 CI 并避免无关失败。
+      - name: Install dependencies
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+        run: npm install
+
+      - name: Build (tsc + copy assets)
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f dist/main/main.js
+          test -f dist/preload/preload.js
+          test -f dist/renderer/renderer.js
+          test -f dist/renderer/index.html
+          test -f dist/renderer/styles.css

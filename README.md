@@ -1,6 +1,14 @@
 # study-note · 桌面学习备忘录
 
+![build](https://github.com/ymg198/study-note/actions/workflows/build.yml/badge.svg)
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-brightgreen.svg)
+![sdk](https://img.shields.io/badge/Cursor%20SDK-%40cursor%2Fsdk-orange.svg)
+
 一个正方形、置顶的桌面小备忘录学习助手。点击即可编辑今日学习总括与要点，调用 Cursor SDK 生成"细节展开"与"重难点"，支持对话式精修，最终保存后从本地记忆中随机抽取两道旧条目生成巩固题并评分。
+
+> 截图位：建议运行 `npm start` 后截一张正方形备忘录的图，保存为 `docs/screenshot.png`，在此处引用：
+> `![study-note 截图](docs/screenshot.png)`
 
 ## 功能
 
@@ -72,8 +80,17 @@ CURSOR_API_KEY=cursor_xxxxxxxx
 4. 满意后点"完成并保存" → 自动按日期写入记忆 → 立即弹出两道从旧记忆中随机抽取的巩固题。
 5. 在作答区写下答案，点"提交作答"获取逐题点评；点"结束"关闭窗口。
 
+## 自动构建（CI）
+
+仓库自带 GitHub Actions（`.github/workflows/build.yml`）：每次向 `main` 推送或发起 PR，会自动在 Ubuntu 上执行 `npm install` + `npm run build`，并校验 `dist/` 产物是否齐全。CI 跳过 Electron 二进制下载（构建只需 TypeScript 编译），速度快。顶部 `build` 徽章实时反映状态。
+
 ## 备注
 
 - 抽查题需记忆 ≥ 2 条才会出题；首次记录后提示"记忆尚少"，下次即开始抽查。
 - 模型默认 `composer-2.5`，可在 `src/main/llm.ts` 顶部 `MODEL_ID` 处更换。
-- git 仓库未初始化时，可在 IDE 终端执行 `git init` 后再提交。
+- 若 `npm install` 时 Electron 二进制下载失败（github 被墙），可临时设置镜像：
+  ```bash
+  export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+  npm install
+  ```
+- 推送代码到 GitHub 若终端连不上，挂上代理：`export HTTPS_PROXY=http://127.0.0.1:你的代理端口`。
